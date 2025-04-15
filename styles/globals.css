@@ -1,0 +1,368 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-gradient: linear-gradient(135deg, #FDF2F8 0%, #FCE7F3 100%);
+  --sakura-pink: #FDA4AF;
+  --sakura-light: #FBCFE8;
+}
+
+/* Base performance optimizations */
+* {
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+/* Responsive smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+  scroll-padding: 2rem;
+  overflow-x: hidden;
+  touch-action: manipulation;
+  @media (prefers-reduced-motion: reduce) {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  @apply antialiased text-gray-900;
+  background: var(--primary-gradient);
+  min-height: 100vh;
+  overflow-x: hidden;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Responsive touch feedback */
+@media (hover: none) {
+  * {
+    cursor: default !important;
+  }
+
+  .btn-primary:active,
+  .card:active,
+  .input-field:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease-out;
+  }
+}
+
+/* Enhanced Bottom flowers decoration with responsive adjustments */
+.flower-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding-bottom: 16px;
+  z-index: 10;
+  background: linear-gradient(to top, rgba(253, 242, 248, 0.95), transparent);
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  transition: opacity 0.3s ease-out;
+
+  @media (max-width: 640px) {
+    height: 60px;
+    padding-bottom: 12px;
+  }
+}
+
+.flower {
+  font-size: 24px;
+  animation: flowerSway 3s ease-in-out infinite;
+  transform-origin: bottom center;
+  opacity: 0.9;
+  margin: 0 8px;
+  display: flex;
+  align-items: flex-end;
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  filter: drop-shadow(0 0 8px rgba(244, 114, 182, 0.2));
+  transition: all 0.3s ease-out;
+
+  @media (max-width: 640px) {
+    font-size: 20px;
+    margin: 0 6px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    transform: none;
+  }
+}
+
+.flower-row {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding-bottom: 8px;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.flower-row:nth-child(2) {
+  bottom: 30px;
+  opacity: 0.7;
+  transform: scale(0.85) translateZ(0);
+}
+
+.flower:nth-child(even) {
+  animation-delay: 0.5s;
+}
+
+.flower:nth-child(3n) {
+  animation-delay: 1s;
+}
+
+.flower:nth-child(5n) {
+  animation-delay: 1.5s;
+}
+
+/* Enhanced animations with responsive behavior */
+@keyframes flowerSway {
+  0%, 100% {
+    transform: rotate(-5deg) translateZ(0) translateY(0);
+  }
+  50% {
+    transform: rotate(5deg) translateZ(0) translateY(-5px);
+  }
+}
+
+/* Responsive sakura animation */
+.sakura {
+  position: fixed;
+  z-index: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  filter: drop-shadow(0 0 5px rgba(244, 114, 182, 0.2));
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none !important;
+    &::before {
+      animation: none !important;
+    }
+  }
+
+  @media (max-width: 640px) {
+    &::before {
+      font-size: 16px;
+      animation-duration: 3s;
+    }
+  }
+}
+
+.sakura::before {
+  content: '🌸';
+  font-size: 20px;
+  position: absolute;
+  animation: fall 4s linear infinite, sway 2s ease-in-out infinite alternate;
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  filter: drop-shadow(0 0 8px rgba(244, 114, 182, 0.3));
+}
+
+@keyframes fall {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -10px, 0) rotate(0deg);
+  }
+  25% {
+    opacity: 1;
+    transform: translate3d(100px, 25vh, 0) rotate(90deg);
+  }
+  50% {
+    transform: translate3d(-50px, 50vh, 0) rotate(180deg);
+  }
+  75% {
+    transform: translate3d(100px, 75vh, 0) rotate(270deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(0, 100vh, 0) rotate(360deg);
+  }
+}
+
+@keyframes sway {
+  0%, 100% { 
+    transform: translate3d(-25px, 0, 0);
+  }
+  50% { 
+    transform: translate3d(25px, 0, 0);
+  }
+}
+
+/* Touch-friendly animations */
+@media (hover: none) {
+  .animate-float {
+    animation-duration: 2s;
+  }
+
+  .flower:active {
+    transform: scale(1.1);
+  }
+
+  .sakura {
+    opacity: 0.7;
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Enhanced animations */
+@keyframes float {
+  0%, 100% { 
+    transform: translateY(0px) translateZ(0); 
+    filter: drop-shadow(0 4px 6px rgba(244, 114, 182, 0.1));
+  }
+  50% { 
+    transform: translateY(-10px) translateZ(0); 
+    filter: drop-shadow(0 8px 12px rgba(244, 114, 182, 0.2));
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+  will-change: transform, filter;
+  
+  @media (max-width: 640px) {
+    animation-duration: 2s;
+  }
+}
+
+/* Responsive text utilities */
+.heading-1 {
+  @apply text-3xl font-bold text-pink-900 tracking-tight leading-tight;
+  text-rendering: optimizeLegibility;
+}
+
+@media (min-width: 640px) {
+  .heading-1 {
+    font-size: 3rem; /* text-5xl */
+  }
+}
+
+@media (min-width: 1024px) {
+  .heading-1 {
+    font-size: 3.75rem; /* text-6xl */
+  }
+}
+
+.heading-2 {
+  @apply text-2xl font-bold text-pink-800 tracking-tight leading-tight;
+  text-rendering: optimizeLegibility;
+}
+
+@media (min-width: 640px) {
+  .heading-2 {
+    font-size: 2.25rem; /* text-4xl */
+  }
+}
+
+/* Touch feedback utilities */
+.active-scale:active {
+  transform: scale(0.98);
+  transition: transform 0.1s ease-out;
+}
+
+@media (hover: hover) {
+  .active-scale:active {
+    transform: none;
+  }
+}
+
+/* Responsive container padding */
+.container-custom {
+  @apply max-w-7xl mx-auto px-3;
+}
+
+@media (min-width: 640px) {
+  .container-custom {
+    padding-left: 1.5rem; /* px-6 */
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-custom {
+    padding-left: 2rem; /* px-8 */
+    padding-right: 2rem;
+  }
+}
+
+/* Enhanced smooth hover transitions */
+@layer components {
+  .btn-primary {
+    @apply px-4 py-2 bg-pink-500 text-white rounded-xl font-medium text-sm
+           transition-all duration-300 ease-out transform-gpu hover:-translate-y-0.5 
+           hover:bg-pink-600 hover:shadow-lg active:transform-gpu active:translate-y-0
+           focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2;
+    will-change: transform, box-shadow, background-color;
+    filter: drop-shadow(0 4px 6px rgba(244, 114, 182, 0.1));
+  }
+  
+  @media (min-width: 640px) {
+    .btn-primary {
+      padding: 0.75rem 1.5rem; /* px-6 py-3 */
+      font-size: 1rem; /* text-base */
+    }
+  }
+  
+  .card {
+    @apply bg-white/80 backdrop-blur-md rounded-2xl p-4
+           transition-all duration-300 ease-out transform-gpu
+           hover:shadow-2xl hover:bg-white/90 
+           border border-pink-100;
+    will-change: transform, box-shadow, background-color;
+    filter: drop-shadow(0 4px 12px rgba(244, 114, 182, 0.1));
+  }
+  
+  @media (min-width: 640px) {
+    .card {
+      padding: 1.5rem; /* p-6 */
+    }
+  }
+  
+  .input-field {
+    @apply w-full px-3 py-2 border border-pink-200 rounded-xl text-sm
+           transition-all duration-200 ease-out transform-gpu
+           focus:ring-2 focus:ring-pink-500 focus:border-pink-500 
+           outline-none bg-white/80 backdrop-blur-md
+           hover:bg-white/90;
+    will-change: transform, box-shadow, background-color;
+  }
+
+  @media (min-width: 640px) {
+    .input-field {
+      padding: 0.75rem 1rem; /* px-4 py-3 */
+      font-size: 1rem; /* text-base */
+    }
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r 
+           from-pink-600 to-rose-600;
+    -webkit-background-clip: text;
+  }
+} 
